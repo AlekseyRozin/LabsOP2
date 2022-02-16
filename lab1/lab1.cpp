@@ -11,18 +11,19 @@ int main()
     string outputFileName = "outputText.txt";
 
     //предлагаем пользователю ввести текст и записываем его в файл
-    string inputText = getText();
-    writeToFile(inputFileName, inputText);
+    vector<string> lines = getLines();
+    writeToFile(inputFileName, lines);
 
-    //разбиваем текст на строки, сортируем их по длинне и добавляем длину строк в их начало
-    vector<string> lines = getLines(inputText);
+    //сортируем вектор строк и добавляем к каждой строке ее длину в ее начало
     sortLines(lines);
-    string newText = generateOutputText(lines);
+    addLen(lines);
 
     //записываем новый текст в файл
-    writeToFile(outputFileName, newText);
+    writeToFile(outputFileName, lines);
 
     //выводим текст входного и выходного файлов
-    cout << "\nInput file text:\n" << inputText;
-    cout << "\n\nOutput file text:\n" << newText;
+    cout << "\nInput file text:\n";
+    getFileText(inputFileName);
+    cout << "\nOutput file text:\n";
+    getFileText(outputFileName);
 }

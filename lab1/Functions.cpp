@@ -5,41 +5,33 @@
 #include <vector>
 using namespace std;
 
-string getText() {
+vector<string> getLines() {
+    vector<string> lines;
     cout << "Enter yout text (press CTRL + X to save file):\n";
 
-    string text, line;
+    string line;
     int endCode = 24;
 
     while (int(line[0]) != endCode) {
         getline(cin, line);
-        text += line + '\n';
+        lines.push_back(line);
     }
+    lines.pop_back();
 
-    text = text.substr(0, text.size() - 3);
-    return text;
+    return lines;
 }
 
-void writeToFile(string fileName, string text) {
+void writeToFile(string fileName, vector<string> lines) {
     ofstream writeFile(fileName);
-    writeFile << text;
+    for (size_t i = 0; i < lines.size(); i++) {
+        writeFile << lines[i];
+        if (i != lines.size() - 1) {
+            writeFile << "\n";
+        }
+    }
     writeFile.close();
 }
 
-vector<string> getLines(string text) {
-    vector<string> lines;
-    size_t pos = 0;
-    int prevPos = 0;
-    while (pos <= text.length()) {
-        if (text[pos] == '\n' || pos == text.length()) {
-            string line = text.substr(prevPos, pos - prevPos);
-            lines.push_back(line);
-            prevPos = pos + 1;
-        }
-        pos++;
-    }
-    return lines;
-}
 
 void sortLines(vector<string>& lines) {
     for (size_t i = 0; i < lines.size() - 1; i++) {
@@ -53,15 +45,17 @@ void sortLines(vector<string>& lines) {
     }
 }
 
-string generateOutputText(vector<string> lines) {
-    string text = "";
+void addLen(vector<string>& lines) {
     for (size_t i = 0; i < lines.size(); i++) {
-        string len = to_string(lines[i].size());
-        string newLine = len + " " + lines[i];
-        text += newLine;
-        if (i != lines.size() - 1) {
-            text += "\n";
-        }
+        lines[i] = to_string(lines[i].size()) + " " + lines[i];
     }
-    return text;
+}
+
+void getFileText(string fileName) {
+    ifstream file(fileName);
+    string temp;
+    while (getline(file, temp)) {
+        cout << temp << endl;
+    }
+    file.close();
 }

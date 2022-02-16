@@ -6,8 +6,8 @@
 using namespace std;
 
 
-string getText();
-void writeToFile(string fileName, string text);
-vector<string> getLines(string text);
+vector<string> getLines();
+void writeToFile(string fileName, vector<string> lines);
 void sortLines(vector<string>& lines);
-string generateOutputText(vector<string> lines);
+void addLen(vector<string>& lines);
+void getFileText(string fileName);

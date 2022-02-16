@@ -1,44 +1,47 @@
 import keyboard
 
-def inputFile(fileName):
-    print("\nEnter yout text (press Shift + Enter to save file):")
-    lines = ""
-    myFile = open(fileName, "w")
+def inputLines():
+    print("Enter yout text (press Shift + Enter to save file):")
+    lines = []
     while not keyboard.is_pressed('shift'):
         line = input()
-        lines += line + "\n"
-    myFile.write(lines[:-1])
-    myFile.close()
+        lines.append(line)
+    return lines
 
 
-def getFileText(fileName):
-    myFile = open(fileName)
-    fileText = myFile.read()
-    myFile.close()
-    return fileText
+def writeToFile(lines,fileName):
+    file = open(fileName, "w+")
+    for i in range(0,len(lines)):
+        file.write(lines[i])
+        if not i == len(lines)-1:
+            file.write("\n")
+    file.close()
 
 
-def sortLines(text):
-    lines = text.split("\n")
+def sortLines(lines):
     for i in range(len(lines)-1):
         for j in range(len(lines) - 1):
             if len(lines[j]) <= len(lines[j+1]):
                 lines[j], lines[j+1] = lines[j+1],lines[j]
-    return "\n".join(lines)
+    return lines
 
 
-def addLen(text):
-    lines = text.split("\n")
+def addLen(lines):
     newLines = []
     for line in lines:
         newLine = str(len(line)) + " " + line
         newLines.append(newLine)
-    newText = "\n".join(newLines)
-    return newText
+    return newLines
 
 
-def createOutputFile(text,fileName):
-    myFile = open(fileName, "w+")
-    myFile.write(text)
-    myFile.close()
+def getFileText(fileName):
+    file = open(fileName, "r")
+    while True:
+        line = file.readline()
+        if not line:
+            break
+        print(line.strip())
+    file.close()
+
+
 
